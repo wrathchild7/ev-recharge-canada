@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EV Charging Prices — Canada | Prix Recharge VE</title>
+  <meta name="description" content="Interactive map of EV charging station prices across Canada. Compare Level 2 and DC Fast charging costs by province and network. Carte interactive des prix de recharge VE au Canada.">
+  <meta name="keywords" content="EV charging, Canada, prix recharge, borne électrique, DCFC, Level 2, FLO, Tesla Supercharger, Circuit Électrique, Electrify Canada">
+  <meta name="author" content="ev-recharge.ca">
+  <link rel="canonical" href="https://ev-recharge.ca/">
+  <!-- Open Graph -->
+  <meta property="og:title" content="EV Charging Prices — Canada">
+  <meta property="og:description" content="Compare EV charging costs across all Canadian provinces and networks.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ev-recharge.ca/">
+  <meta property="og:locale" content="en_CA">
+  <meta property="og:locale:alternate" content="fr_CA">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="logo-area">
+        <svg class="logo-icon" viewBox="0 0 40 40" width="40" height="40">
+          <circle cx="20" cy="20" r="18" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+          <path d="M22 8 L16 22 H21 L19 32 L26 18 H21 Z" fill="#2e7d32"/>
+        </svg>
+        <div class="logo-text">
+          <h1 data-i18n="siteTitle">EV Charging Prices</h1>
+          <span class="subtitle" data-i18n="siteSubtitle">Canada</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <nav class="header-nav">
+          <a href="#map-section" class="nav-link active" data-i18n="navMap">Map</a>
+          <a href="#table-section" class="nav-link" data-i18n="navTable">Table</a>
+          <a href="#compare-section" class="nav-link" data-i18n="navCompare">Comparison</a>
+          <a href="#about-section" class="nav-link" data-i18n="navAbout">About</a>
+        </nav>
+        <div class="lang-toggle">
+          <button class="lang-btn" data-lang="fr">FR</button>
+          <span class="lang-sep">|</span>
+          <button class="lang-btn active" data-lang="en">EN</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="avg-badge">
+        <span class="avg-label" data-i18n="avgLabelDC" data-i18n-html="true">National Average<br>DC Fast</span>
+        <span class="avg-price" id="national-avg">$0.42</span>
+        <span class="avg-unit">/kWh</span>
+      </div>
+      <div class="avg-badge avg-badge-level2">
+        <span class="avg-label" data-i18n="avgLabelL2" data-i18n-html="true">National Average<br>Level 2</span>
+        <span class="avg-price" id="national-avg-l2">$0.25</span>
+        <span class="avg-unit">/kWh</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-value" id="total-ports">33,767</span>
+          <span class="stat-label" data-i18n="statPorts">Public Ports</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="total-stations">12,955</span>
+          <span class="stat-label" data-i18n="statStations">Stations</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="total-dcfast">6,309</span>
+          <span class="stat-label" data-i18n="statDCFast">DC Fast Ports</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHARGE LEVEL SELECTOR -->
+  <section class="level-selector">
+    <div class="level-inner">
+      <span class="level-label" data-i18n="levelLabel">Show prices:</span>
+      <div class="level-buttons">
+        <button class="level-btn" data-level="level1" data-i18n="level1">Level 1</button>
+        <button class="level-btn active" data-level="level2" data-i18n="level2">Level 2</button>
+        <button class="level-btn" data-level="dcFast" data-i18n="dcFast">DC Fast</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP SECTION -->
+  <section id="map-section" class="section">
+    <h2 class="section-title" data-i18n="mapTitle">Pricing Map by Province</h2>
+    <p class="section-desc" data-i18n="mapDesc">The map shows the daily average cost per kilowatt-hour for all commercial/public charging. Hover over a province for details.</p>
+    <div id="map"></div>
+    <div class="legend" id="map-legend">
+      <h4 data-i18n="legendTitle">Cost / kWh (CAD)</h4>
+      <div class="legend-items" id="legend-items"></div>
+    </div>
+  </section>
+
+  <!-- TABLE SECTION -->
+  <section id="table-section" class="section">
+    <h2 class="section-title" data-i18n="tableTitle">Prices by Province and Territory</h2>
+    <p class="section-desc" data-i18n="tableDesc">Click column headers to sort the table.</p>
+    <div class="table-wrapper">
+      <table id="ev-table">
+        <thead>
+          <tr>
+            <th data-sort="name" class="sortable"><span data-i18n="thProvince">Province / Territory</span> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="level1" class="sortable"><span data-i18n="thLevel1">Level 1</span><br><small>$/kWh</small> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="level2" class="sortable"><span data-i18n="thLevel2">Level 2</span><br><small>$/kWh</small> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="dcFast" class="sortable active-sort"><span data-i18n="thDCFast">DC Fast</span><br><small>$/kWh</small> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="totalPorts" class="sortable"><span data-i18n="thPorts">Ports</span> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="stations" class="sortable"><span data-i18n="thStations">Stations</span> <span class="sort-icon">&#9650;&#9660;</span></th>
+            <th data-sort="pricingModel"><span data-i18n="thModel">Model</span></th>
+          </tr>
+        </thead>
+        <tbody id="ev-table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- COMPARISON SECTION -->
+  <section id="compare-section" class="section">
+    <h2 class="section-title" data-i18n="compareTitle">Comparison by Charging Level</h2>
+    <p class="section-desc" data-i18n="compareDesc">Compare costs between Level 1, Level 2 and DC Fast Charging for each province.</p>
+    <div class="chart-container">
+      <canvas id="comparison-chart"></canvas>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about-section" class="section section-about">
+    <h2 class="section-title" data-i18n="aboutTitle">About the Data</h2>
+    <div class="about-content">
+      <div class="about-card">
+        <h3 data-i18n="aboutSourcesTitle">Sources</h3>
+        <p data-i18n="aboutSourcesText" data-i18n-html="true">Data is compiled from Natural Resources Canada (NRCan), Paren Q4 2025 report, BC Hydro, Hydro-Québec, and other provincial providers.</p>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="aboutLevelsTitle">Charging Levels</h3>
+        <p data-i18n="aboutLevelsText" data-i18n-html="true"><strong>Level 1</strong> — Standard 120V outlet, ~5 km/h of charge.<br><strong>Level 2</strong> — 240V, ~30-40 km/h of charge.<br><strong>DC Fast</strong> — 400V+, ~250-350 km/h of charge.</p>
+      </div>
+      <div class="about-card">
+        <h3 data-i18n="aboutMethodTitle">Methodology</h3>
+        <p data-i18n="aboutMethodText" data-i18n-html="true">Prices shown are provincial averages for public/commercial charging. Residential rates, subscriptions and member rates are not included.</p>
+      </div>
+    </div>
+    <p class="last-updated"><span data-i18n="lastUpdated">Last updated:</span> <span id="last-updated"></span></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <p data-i18n="footerText">&copy; 2026 EV Charging Prices Canada &mdash; Data for informational purposes only</p>
+  </footer>
+
+  <!-- SCRIPTS (i18n MUST load before app.js) -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/regions.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
