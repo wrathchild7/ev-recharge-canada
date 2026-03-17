@@ -540,7 +540,6 @@ function applyDrillOpacity() {
           layer.on({
             mouseover: function(e) {
               e.target.setStyle({ weight: 3, color: '#d32f2f', opacity: 1 });
-              e.target.bringToFront();
             },
             mouseout: function(e) {
               regionLayer.resetStyle(e.target);
@@ -607,7 +606,6 @@ function renderRegionLayer(regionGeoJSON, stationCounts) {
       layer.on({
         mouseover: function(e) {
           e.target.setStyle({ weight: 3, color: '#d32f2f', opacity: 1 });
-          e.target.bringToFront();
         },
         mouseout: function(e) {
           regionLayer.resetStyle(e.target);
