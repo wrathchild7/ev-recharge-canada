@@ -70,6 +70,7 @@ const translations = {
 
     // Footer
     footerText: "© 2026 EV Charging Prices Canada — Data for informational purposes only",
+    footerPrivacy: "Privacy Policy",
 
     // Popup
     popupLevel1: "Level 1",
@@ -167,6 +168,7 @@ const translations = {
 
     // Footer
     footerText: "© 2026 Prix Recharge VE Canada — Données à titre indicatif seulement",
+    footerPrivacy: "Politique de confidentialité",
 
     // Popup
     popupLevel1: "Niveau 1",
