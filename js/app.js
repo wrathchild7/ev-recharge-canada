@@ -2,18 +2,6 @@
 // Prix Recharge VE Canada — Main Application
 // ============================================================
 
-// Leaflet 1.9.4 known bug: Tooltip mouseover handler crashes with
-// "Cannot set properties of null (setting '_source')" when SVG path
-// elements receive mouse events after their parent layer is removed.
-// This is an internal DOM-level event that cannot be patched cleanly.
-// Suppress this specific harmless error to keep the console clean.
-window.addEventListener('error', function(e) {
-  if (e.message && e.message.includes("Cannot set properties of null (setting '_source')")) {
-    e.preventDefault();
-    return true;
-  }
-});
-
 // --- EV DATA (embedded for offline use) ---
 const evData = {
   lastUpdated: "2026-03-15",
