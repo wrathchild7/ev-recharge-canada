@@ -1092,6 +1092,7 @@ async function drillIntoProvince(provinceCode) {
         layer.closeTooltip();
         layer.unbindTooltip();
       }
+      layer.off('mouseover mouseout');
     });
   }
 
@@ -1131,8 +1132,12 @@ function drillBackToProvinces() {
   currentDrillProvince = null;
   showRateLimitWarning(false);
 
-  // Remove region outlines
+  // Remove region outlines (unbind tooltips first to prevent Leaflet _source null errors)
   if (regionLayer) {
+    regionLayer.eachLayer(function(layer) {
+      if (layer.getTooltip()) { layer.closeTooltip(); layer.unbindTooltip(); }
+      layer.off();
+    });
     map.removeLayer(regionLayer);
     regionLayer = null;
   }

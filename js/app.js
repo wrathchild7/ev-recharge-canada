@@ -147,7 +147,13 @@ async function loadGeoJSON() {
 }
 
 function renderGeoLayer(geojsonData) {
-  if (geoLayer) map.removeLayer(geoLayer);
+  if (geoLayer) {
+    geoLayer.eachLayer(function(layer) {
+      if (layer.getTooltip()) { layer.closeTooltip(); layer.unbindTooltip(); }
+      layer.off();
+    });
+    map.removeLayer(geoLayer);
+  }
 
   geoLayer = L.geoJSON(geojsonData, {
     style: function(feature) {
