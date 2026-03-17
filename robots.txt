@@ -1,0 +1,6 @@
+# robots.txt for ev-recharge.ca
+User-agent: *
+Allow: /
+Disallow: /.well-known/
+
+Sitemap: https://ev-recharge.ca/sitemap.xml
