@@ -176,7 +176,8 @@ function renderGeoLayer(geojsonData) {
             }
             highlightedLayer = e.target;
             e.target.setStyle({ weight: 3, color: '#d32f2f', fillOpacity: 0.9 });
-            e.target.bringToFront();
+            // Note: bringToFront() removed — it causes Leaflet Tooltip._source null errors
+            // when reordering SVG elements triggers spurious mouseout/mouseover events
           },
           mouseout: function(e) {
             if (typeof currentDrillProvince !== 'undefined' && currentDrillProvince) return;
