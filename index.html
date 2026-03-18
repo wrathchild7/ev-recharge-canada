@@ -16,6 +16,38 @@
   <meta property="og:url" content="https://ev-recharge.ca/">
   <meta property="og:locale" content="en_CA">
   <meta property="og:locale:alternate" content="fr_CA">
+  <!-- Hreflang: bilingual FR/EN for SEO -->
+  <link rel="alternate" hreflang="en" href="https://ev-recharge.ca/">
+  <link rel="alternate" hreflang="fr" href="https://ev-recharge.ca/">
+  <link rel="alternate" hreflang="x-default" href="https://ev-recharge.ca/">
+  <!-- Structured Data: JSON-LD for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "EV Charging Prices Canada / Prix Recharge VE Canada",
+    "alternateName": "ev-recharge.ca",
+    "url": "https://ev-recharge.ca/",
+    "description": "Interactive map of EV charging station prices across Canada. Carte interactive des prix de recharge VE au Canada.",
+    "inLanguage": ["en-CA", "fr-CA"],
+    "creator": {
+      "@type": "Organization",
+      "name": "ev-recharge.ca",
+      "url": "https://ev-recharge.ca/"
+    },
+    "about": {
+      "@type": "Thing",
+      "name": "Electric vehicle charging stations in Canada"
+    },
+    "audience": {
+      "@type": "Audience",
+      "geographicArea": {
+        "@type": "Country",
+        "name": "Canada"
+      }
+    }
+  }
+  </script>
   <!-- Security: Content Security Policy -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://unpkg.com data:; connect-src 'self' https://ev-recharge.goatcounter.com https://developer.nrel.gov https://raw.githubusercontent.com https://cdn.jsdelivr.net https://unpkg.com https://geo.statcan.gc.ca https://api.openchargemap.io; font-src 'self'; base-uri 'self'; form-action 'self';">
   <!-- Security: Permissions Policy — disable unused browser features -->
