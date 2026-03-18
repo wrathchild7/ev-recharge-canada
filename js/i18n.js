@@ -28,6 +28,7 @@ const translations = {
     // Map section
     mapTitle: "Pricing Map by Province",
     mapDesc: "The map shows the daily average cost per kilowatt-hour for all commercial/public charging. Hover over a province for details.",
+    mapHint: "Click on a province to zoom in and see charging stations",
     legendTitle: "Cost / kWh (CAD)",
 
     // Table section
@@ -126,6 +127,7 @@ const translations = {
     // Map section
     mapTitle: "Carte des prix par province",
     mapDesc: "La carte représente le coût moyen journalier par kilowattheure pour la recharge publique/commerciale. Survolez une province pour voir les détails.",
+    mapHint: "Cliquez sur une province pour zoomer et voir les bornes de recharge",
     legendTitle: "Coût / kWh (CAD)",
 
     // Table section
