@@ -24,6 +24,44 @@ function buildSuggestButton(stationData) {
   `;
 }
 
+// --- Update the unit display when user changes the unit selector ---
+function onUnitChange() {
+  const unitSelect = document.getElementById('suggest-unit-select');
+  const unitLabel = document.getElementById('suggest-unit-label');
+  const priceInput = document.getElementById('suggest-price');
+  const unit = unitSelect.value;
+
+  // Update the displayed unit label
+  unitLabel.textContent = unit === 'free' ? '' : unit;
+
+  // Adjust input constraints based on unit
+  if (unit === 'free') {
+    priceInput.value = '0';
+    priceInput.disabled = true;
+    priceInput.required = false;
+  } else {
+    priceInput.disabled = false;
+    priceInput.required = true;
+    if (unit === '$/kWh') {
+      priceInput.step = '0.01';
+      priceInput.max = '10';
+      priceInput.placeholder = '0.35';
+    } else if (unit === '$/min') {
+      priceInput.step = '0.01';
+      priceInput.max = '5';
+      priceInput.placeholder = '0.20';
+    } else if (unit === '$/hr') {
+      priceInput.step = '0.50';
+      priceInput.max = '50';
+      priceInput.placeholder = '2.50';
+    } else if (unit === '$/session') {
+      priceInput.step = '0.50';
+      priceInput.max = '100';
+      priceInput.placeholder = '10.00';
+    }
+  }
+}
+
 // --- Create and show the suggestion modal ---
 function openSuggestModal(encodedData) {
   const data = typeof encodedData === 'string' ? JSON.parse(encodedData) : encodedData;
@@ -49,6 +87,15 @@ function openSuggestModal(encodedData) {
     levelOptions = `<option value="level2">${t('popupLevel2')}</option>`;
   }
 
+  // Build unit options
+  const unitOptions = `
+    <option value="$/kWh">$/kWh</option>
+    <option value="$/min">$/min</option>
+    <option value="$/hr">$/hr</option>
+    <option value="$/session">$/${t('suggestUnitSession')}</option>
+    <option value="free">${t('suggestUnitFree')}</option>
+  `;
+
   const overlay = document.createElement('div');
   overlay.id = 'suggest-modal-overlay';
   overlay.className = 'suggest-overlay';
@@ -72,13 +119,20 @@ function openSuggestModal(encodedData) {
         </div>
 
         <div class="suggest-field">
+          <label for="suggest-unit-select">${t('suggestUnitLabel')}</label>
+          <select id="suggest-unit-select" name="unit" onchange="onUnitChange()">
+            ${unitOptions}
+          </select>
+        </div>
+
+        <div class="suggest-field" id="suggest-price-field">
           <label for="suggest-price">${t('suggestNewPrice')}</label>
           <div class="suggest-price-input">
             <span class="suggest-currency">$</span>
             <input type="number" id="suggest-price" name="suggestedPrice"
                    step="0.01" min="0" max="10" required
                    placeholder="0.35">
-            <span class="suggest-unit">/kWh</span>
+            <span class="suggest-unit" id="suggest-unit-label">/kWh</span>
           </div>
         </div>
 
@@ -126,6 +180,7 @@ async function submitSuggestion(event) {
   const form = document.getElementById('suggest-form');
   const status = document.getElementById('suggest-status');
   const submitBtn = form.querySelector('.suggest-submit');
+  const unit = form.unit.value;
 
   // Gather form data
   const payload = {
@@ -134,13 +189,13 @@ async function submitSuggestion(event) {
     network: form.network.value,
     level: form.level.value,
     currentPrice: '',
-    suggestedPrice: parseFloat(form.suggestedPrice.value),
-    unit: '$/kWh',
+    suggestedPrice: unit === 'free' ? 0 : parseFloat(form.suggestedPrice.value),
+    unit: unit,
     comment: form.comment.value.trim()
   };
 
   // Validate
-  if (isNaN(payload.suggestedPrice) || payload.suggestedPrice <= 0) {
+  if (unit !== 'free' && (isNaN(payload.suggestedPrice) || payload.suggestedPrice <= 0)) {
     status.style.display = 'block';
     status.className = 'suggest-status suggest-error';
     status.textContent = t('suggestErrorPrice');

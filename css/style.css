@@ -434,6 +434,24 @@ body {
   font-weight: 600;
 }
 
+.province-popup .popup-connectors .popup-value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.connector-badge {
+  display: inline-block;
+  background: #e3f2fd;
+  color: #1565c0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.1rem 0.45rem;
+  border-radius: 10px;
+  white-space: nowrap;
+}
+
 /* ===== TABLE ===== */
 .table-wrapper {
   overflow-x: auto;

@@ -146,8 +146,25 @@ function fixEncoding(str) {
     .trim();
 }
 
+// --- NREL connector type mapping ---
+const NREL_CONNECTOR_MAP = {
+  'J1772': 'J1772',
+  'J1772COMBO': 'CCS1',
+  'CCS': 'CCS1',
+  'CHADEMO': 'CHAdeMO',
+  'TESLA': 'NACS / Tesla',
+  'NEMA_14_50': 'NEMA 14-50',
+  'NEMA_5_15': 'NEMA 5-15',
+  'NEMA_5_20': 'NEMA 5-20'
+};
+
 // --- Normalize: convert NREL station to common format ---
 function normalizeNREL(s) {
+  // NREL returns ev_connector_types as array: ["J1772","CCS","CHADEMO","TESLA",...]
+  let connectors = [];
+  if (s.ev_connector_types && Array.isArray(s.ev_connector_types)) {
+    connectors = [...new Set(s.ev_connector_types.map(c => NREL_CONNECTOR_MAP[c] || c))];
+  }
   return {
     id: 'nrel_' + s.id,
     name: fixEncoding(s.station_name || ''),
@@ -156,6 +173,7 @@ function normalizeNREL(s) {
     ev_level1_evse_num: s.ev_level1_evse_num || 0,
     ev_level2_evse_num: s.ev_level2_evse_num || 0,
     ev_dc_fast_num: s.ev_dc_fast_num || 0,
+    ev_connector_types: connectors,
     network: s.ev_network || '',
     address: fixEncoding(s.street_address || ''),
     city: fixEncoding(s.city || ''),
@@ -165,9 +183,22 @@ function normalizeNREL(s) {
   };
 }
 
+// --- OCM ConnectionTypeID mapping ---
+const OCM_CONNECTOR_MAP = {
+  1: 'J1772',        // Type 1 (J1772)
+  2: 'CHAdeMO',      // CHAdeMO
+  25: 'CCS1',        // Type 1 CCS (SAE Combo)
+  27: 'Tesla',       // Tesla Supercharger
+  30: 'CCS1',        // CCS (SAE Combo)
+  32: 'CCS1',        // CCS1
+  33: 'CCS2',        // CCS2 (Type 2 CCS)
+  0: 'Unknown'
+};
+
 // --- Normalize: convert OCM station to common format ---
 function normalizeOCM(s) {
   let l1 = 0, l2 = 0, dc = 0;
+  let connectors = [];
   if (s.Connections) {
     s.Connections.forEach(c => {
       const qty = c.Quantity || 1;
@@ -177,8 +208,13 @@ function normalizeOCM(s) {
       else if (levelId === 2) l2 += qty;
       else if (levelId === 3) dc += qty;
       else l2 += qty; // default to L2 if unknown
+      // Extract connector type
+      const typeId = c.ConnectionTypeID || (c.ConnectionType ? c.ConnectionType.ID : 0);
+      const typeName = OCM_CONNECTOR_MAP[typeId] || (c.ConnectionType ? c.ConnectionType.Title : null);
+      if (typeName && typeName !== 'Unknown') connectors.push(typeName);
     });
   }
+  connectors = [...new Set(connectors)]; // deduplicate
   const addr = s.AddressInfo || {};
   return {
     id: 'ocm_' + s.ID,
@@ -188,6 +224,7 @@ function normalizeOCM(s) {
     ev_level1_evse_num: l1,
     ev_level2_evse_num: l2,
     ev_dc_fast_num: dc,
+    ev_connector_types: connectors,
     network: s.OperatorInfo ? (s.OperatorInfo.Title || '') : '',
     address: addr.AddressLine1 || '',
     city: addr.Town || '',
@@ -1027,11 +1064,23 @@ function buildStationMarkers(stations, provinceCode) {
       }
     }
 
+    // Build connector badges
+    let connectorsHtml = '';
+    if (s.ev_connector_types && s.ev_connector_types.length > 0) {
+      const badges = s.ev_connector_types.map(c => `<span class="connector-badge">${c}</span>`).join(' ');
+      connectorsHtml = `
+        <div class="popup-row popup-connectors">
+          <span>${t('popupConnectors')}</span>
+          <span class="popup-value">${badges}</span>
+        </div>`;
+    }
+
     const popupHtml = `
       <div class="province-popup">
         <h3>${s.name || 'Station'}</h3>
         ${addressLine}
         <div class="popup-row"><span>${t('popupNetwork')}</span><span class="popup-value">${networkLabel}</span></div>
+        ${connectorsHtml}
         <div class="popup-row"><span>${t('popupTotalPorts')}</span><span class="popup-value">${num(total)}</span></div>
         <div class="popup-row"><span>${t('popupLevel1')} + ${t('popupLevel2')}</span><span class="popup-value">${num((s.ev_level1_evse_num || 0) + (s.ev_level2_evse_num || 0))}</span></div>
         <div class="popup-row"><span>${t('popupDCFast')}</span><span class="popup-value">${num(s.ev_dc_fast_num || 0)}</span></div>
