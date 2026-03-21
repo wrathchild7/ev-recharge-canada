@@ -84,6 +84,20 @@ const translations = {
     popupNA: "N/A",
     perKwh: "/kWh",
 
+    // Price suggestion
+    suggestPrice: "Suggest a price update",
+    suggestTitle: "Suggest a Price Update",
+    suggestLevel: "Charging level",
+    suggestNewPrice: "Suggested price",
+    suggestComment: "Comment (optional)",
+    suggestCommentPlaceholder: "e.g. Price seen on charger display, date visited...",
+    suggestCancel: "Cancel",
+    suggestSubmit: "Submit",
+    suggestSending: "Sending...",
+    suggestSuccess: "Thank you! Your suggestion has been submitted for review.",
+    suggestError: "An error occurred. Please try again later.",
+    suggestErrorPrice: "Please enter a valid price.",
+
     // Province names
     provinces: {
       AB: "Alberta",
@@ -182,6 +196,20 @@ const translations = {
     popupNetwork: "Réseau",
     popupNA: "N/D",
     perKwh: "/kWh",
+
+    // Price suggestion
+    suggestPrice: "Suggérer une mise à jour du prix",
+    suggestTitle: "Suggérer une mise à jour du prix",
+    suggestLevel: "Niveau de recharge",
+    suggestNewPrice: "Prix suggéré",
+    suggestComment: "Commentaire (optionnel)",
+    suggestCommentPlaceholder: "ex. Prix vu sur l'écran du chargeur, date de visite...",
+    suggestCancel: "Annuler",
+    suggestSubmit: "Soumettre",
+    suggestSending: "Envoi en cours...",
+    suggestSuccess: "Merci! Votre suggestion a été soumise pour révision.",
+    suggestError: "Une erreur est survenue. Veuillez réessayer plus tard.",
+    suggestErrorPrice: "Veuillez entrer un prix valide.",
 
     // Province names
     provinces: {

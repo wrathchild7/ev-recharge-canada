@@ -600,3 +600,218 @@ body {
   #ev-table { font-size: 0.82rem; }
   #ev-table th, #ev-table td { padding: 0.6rem 0.5rem; }
 }
+
+/* ===== PRICE SUGGESTION ===== */
+.suggest-price-btn {
+  background: var(--green);
+  color: var(--white);
+  border: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.suggest-price-btn:hover {
+  background: var(--green-light);
+  transform: scale(1.03);
+}
+
+.suggest-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1rem;
+}
+
+.suggest-modal {
+  background: var(--white);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  padding: 1.75rem;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  animation: suggestSlideIn 0.25s ease-out;
+}
+
+@keyframes suggestSlideIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.suggest-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--gray-600);
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+
+.suggest-close:hover {
+  background: var(--gray-200);
+}
+
+.suggest-modal h3 {
+  font-size: 1.15rem;
+  color: var(--green);
+  margin-bottom: 0.5rem;
+}
+
+.suggest-station-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--gray-900);
+  margin-bottom: 0.15rem;
+}
+
+.suggest-network {
+  font-size: 0.85rem;
+  color: var(--gray-600);
+  margin-bottom: 1rem;
+}
+
+.suggest-field {
+  margin-bottom: 1rem;
+}
+
+.suggest-field label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 0.3rem;
+}
+
+.suggest-field select,
+.suggest-field textarea {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  transition: border-color 0.2s;
+}
+
+.suggest-field select:focus,
+.suggest-field textarea:focus,
+.suggest-field input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(46,125,50,0.12);
+}
+
+.suggest-price-input {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.suggest-price-input:focus-within {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(46,125,50,0.12);
+}
+
+.suggest-currency {
+  padding: 0.55rem 0.6rem;
+  background: var(--gray-100);
+  color: var(--gray-600);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-right: 1px solid var(--gray-300);
+}
+
+.suggest-price-input input {
+  flex: 1;
+  border: none;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  outline: none;
+}
+
+.suggest-unit {
+  padding: 0.55rem 0.6rem;
+  color: var(--gray-600);
+  font-size: 0.85rem;
+  background: var(--gray-100);
+  border-left: 1px solid var(--gray-300);
+}
+
+.suggest-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.25rem;
+}
+
+.suggest-cancel {
+  background: none;
+  border: 1.5px solid var(--gray-300);
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--gray-800);
+  transition: background 0.15s;
+}
+
+.suggest-cancel:hover {
+  background: var(--gray-100);
+}
+
+.suggest-submit {
+  background: var(--green);
+  color: var(--white);
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.suggest-submit:hover {
+  background: #1b5e20;
+}
+
+.suggest-submit:disabled {
+  background: var(--gray-300);
+  cursor: not-allowed;
+}
+
+.suggest-status {
+  text-align: center;
+  padding: 0.75rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  margin-top: 1rem;
+}
+
+.suggest-success {
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.suggest-error {
+  background: #ffebee;
+  color: #c62828;
+}
