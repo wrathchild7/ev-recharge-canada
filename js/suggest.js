@@ -65,13 +65,16 @@ function buildOverridePricingHtml(stationId) {
 // --- Build the "Suggest a price" button HTML for station popups ---
 function buildSuggestButton(stationData) {
   // Encode station data as JSON in a data attribute
+  // encodeURIComponent does NOT encode single quotes — we must escape them
+  // to avoid breaking the onclick='...' attribute when station names contain apostrophes
+  // (very common in French: "L'Île-Perrot", "Halte routière de l'Anse-au-Griffon", etc.)
   const encoded = encodeURIComponent(JSON.stringify({
     stationId: stationData.id || '',
     stationName: stationData.name || '',
     network: stationData.network || '',
     level2Ports: stationData.ev_level2_evse_num || 0,
     dcFastPorts: stationData.ev_dc_fast_num || 0
-  }));
+  })).replace(/'/g, '%27');
 
   return `
     <div style="margin-top:0.5rem;text-align:center;">
@@ -162,7 +165,7 @@ function openSuggestModal(encodedData) {
       <button class="suggest-close" onclick="closeSuggestModal()">&times;</button>
       <h3>${t('suggestTitle')}</h3>
       <p class="suggest-station-name">${data.stationName}</p>
-      <p class="suggest-network">${data.network}</p>
+      ${data.network ? `<p class="suggest-network">${data.network}</p>` : ''}
 
       <form id="suggest-form" onsubmit="submitSuggestion(event)">
         <input type="hidden" name="stationId" value="${data.stationId}">
