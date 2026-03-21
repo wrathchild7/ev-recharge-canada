@@ -619,6 +619,80 @@ body {
   font-size: 0.85rem;
 }
 
+/* ===== CONTRIBUTE ===== */
+.section-contribute {
+  margin-bottom: 2rem;
+}
+
+.contribute-card {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 2px solid rgba(46,125,50,0.15);
+}
+
+.contribute-icon {
+  margin-bottom: 1rem;
+}
+
+.contribute-text h2 {
+  font-size: 1.4rem;
+  color: var(--green);
+  margin-bottom: 0.75rem;
+}
+
+.contribute-text p {
+  color: var(--gray-800);
+  font-size: 0.95rem;
+  max-width: 650px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.contribute-steps {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.contribute-step {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--white);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--green);
+  color: var(--white);
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-text {
+  font-size: 0.88rem;
+  color: var(--gray-800);
+  font-weight: 500;
+}
+
+/* Community stat highlight */
+.stat-community .stat-value {
+  color: #a5d6a7;
+}
+
 /* ===== FOOTER ===== */
 .site-footer {
   background: var(--gray-900);

@@ -13,7 +13,11 @@ async function loadStationOverrides() {
     if (resp.ok) {
       const data = await resp.json();
       stationOverrides = data.stations || {};
-      console.log(`Loaded ${Object.keys(stationOverrides).length} station price override(s)`);
+      const count = Object.keys(stationOverrides).length;
+      console.log(`Loaded ${count} station price override(s)`);
+      // Update community counter in Hero section
+      const counter = document.getElementById('community-count');
+      if (counter) counter.textContent = count.toLocaleString();
     }
   } catch (e) {
     console.log('No station overrides found (optional)');

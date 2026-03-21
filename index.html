@@ -84,6 +84,7 @@
           <a href="#table-section" class="nav-link" data-i18n="navTable">Table</a>
           <a href="#compare-section" class="nav-link" data-i18n="navCompare">Comparison</a>
           <a href="#about-section" class="nav-link" data-i18n="navAbout">About</a>
+          <a href="#contribute-section" class="nav-link" data-i18n="navContribute">Contribute</a>
         </nav>
         <div class="lang-toggle">
           <button class="lang-btn" data-lang="fr">FR</button>
@@ -119,6 +120,10 @@
         <div class="stat-item">
           <span class="stat-value" id="total-dcfast">6,309</span>
           <span class="stat-label" data-i18n="statDCFast">DC Fast Ports</span>
+        </div>
+        <div class="stat-item stat-community">
+          <span class="stat-value" id="community-count">0</span>
+          <span class="stat-label" data-i18n="statCommunity">Community-verified prices</span>
         </div>
       </div>
     </div>
@@ -197,6 +202,36 @@
       </div>
     </div>
     <p class="last-updated"><span data-i18n="lastUpdated">Last updated:</span> <span id="last-updated"></span></p>
+  </section>
+
+  <!-- CONTRIBUTE SECTION -->
+  <section id="contribute-section" class="section section-contribute">
+    <div class="contribute-card">
+      <div class="contribute-icon">
+        <svg viewBox="0 0 48 48" width="48" height="48">
+          <circle cx="24" cy="24" r="22" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+          <path d="M24 14v20M14 24h20" stroke="#2e7d32" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="contribute-text">
+        <h2 data-i18n="contributeTitle">Help us keep prices up to date</h2>
+        <p data-i18n="contributeDesc" data-i18n-html="true">Our prices are verified by real users like you. When you visit a charging station, click on it on the map and share the price you see — it only takes a few seconds. Together, we can build the most accurate EV charging price database in Canada.</p>
+      </div>
+      <div class="contribute-steps">
+        <div class="contribute-step">
+          <span class="step-number">1</span>
+          <span class="step-text" data-i18n="contributeStep1">Find a station on the map</span>
+        </div>
+        <div class="contribute-step">
+          <span class="step-number">2</span>
+          <span class="step-text" data-i18n="contributeStep2">Click "Suggest a price update"</span>
+        </div>
+        <div class="contribute-step">
+          <span class="step-number">3</span>
+          <span class="step-text" data-i18n="contributeStep3">Enter the price and submit</span>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- FOOTER -->

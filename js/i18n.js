@@ -11,6 +11,7 @@ const translations = {
     navTable: "Table",
     navCompare: "Comparison",
     navAbout: "About",
+    navContribute: "Contribute",
 
     // Hero
     avgLabelDC: "National Average\nDC Fast",
@@ -18,6 +19,7 @@ const translations = {
     statPorts: "Public Ports",
     statStations: "Stations",
     statDCFast: "DC Fast Ports",
+    statCommunity: "Community-verified prices",
 
     // Level selector
     levelLabel: "Show prices:",
@@ -105,6 +107,13 @@ const translations = {
     // Price overrides
     overrideConfirmed: "User-confirmed price",
 
+    // Contribute section
+    contributeTitle: "Help us keep prices up to date",
+    contributeDesc: "Our prices are verified by real users like you. When you visit a charging station, click on it on the map and share the price you see — it only takes a few seconds. Together, we can build the most accurate EV charging price database in Canada.",
+    contributeStep1: "Find a station on the map",
+    contributeStep2: "Click \"Suggest a price update\"",
+    contributeStep3: "Enter the price and submit",
+
     // Province names
     provinces: {
       AB: "Alberta",
@@ -131,6 +140,7 @@ const translations = {
     navTable: "Tableau",
     navCompare: "Comparaison",
     navAbout: "À propos",
+    navContribute: "Contribuer",
 
     // Hero
     avgLabelDC: "Moyenne nationale\nDC Rapide",
@@ -138,6 +148,7 @@ const translations = {
     statPorts: "Bornes publiques",
     statStations: "Stations",
     statDCFast: "Bornes DC rapide",
+    statCommunity: "Prix vérifiés par la communauté",
 
     // Level selector
     levelLabel: "Afficher les prix :",
@@ -224,6 +235,13 @@ const translations = {
 
     // Price overrides
     overrideConfirmed: "Prix confirmé par un usager",
+
+    // Contribute section
+    contributeTitle: "Aidez-nous à garder les prix à jour",
+    contributeDesc: "Nos prix sont vérifiés par de vrais utilisateurs comme vous. Lorsque vous visitez une borne de recharge, cliquez dessus sur la carte et partagez le prix affiché — ça ne prend que quelques secondes. Ensemble, bâtissons la base de données de prix de recharge la plus précise au Canada.",
+    contributeStep1: "Trouvez une borne sur la carte",
+    contributeStep2: "Cliquez « Suggérer une mise à jour du prix »",
+    contributeStep3: "Entrez le prix et soumettez",
 
     // Province names
     provinces: {
