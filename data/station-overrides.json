@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "description": "Crowdsourced price overrides confirmed by ev-recharge.ca admin",
+    "lastUpdated": "2026-03-20",
+    "version": 1
+  },
+  "stations": {
+    "nrel_129863": {
+      "name": "ARQ - 3800 rue Marly",
+      "network": "FLO",
+      "province": "QC",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 1.00,
+          "unit": "$/hr",
+          "confirmed": "2026-03-20",
+          "source": "user-suggestion"
+        }
+      ]
+    }
+  }
+}

@@ -102,6 +102,9 @@ const translations = {
     suggestError: "An error occurred. Please try again later.",
     suggestErrorPrice: "Please enter a valid price.",
 
+    // Price overrides
+    overrideConfirmed: "User-confirmed price",
+
     // Province names
     provinces: {
       AB: "Alberta",
@@ -218,6 +221,9 @@ const translations = {
     suggestSuccess: "Merci! Votre suggestion a été soumise pour révision.",
     suggestError: "Une erreur est survenue. Veuillez réessayer plus tard.",
     suggestErrorPrice: "Veuillez entrer un prix valide.",
+
+    // Price overrides
+    overrideConfirmed: "Prix confirmé par un usager",
 
     // Province names
     provinces: {

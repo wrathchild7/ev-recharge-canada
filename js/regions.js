@@ -1084,7 +1084,7 @@ function buildStationMarkers(stations, provinceCode) {
         <div class="popup-row"><span>${t('popupTotalPorts')}</span><span class="popup-value">${num(total)}</span></div>
         <div class="popup-row"><span>${t('popupLevel1')} + ${t('popupLevel2')}</span><span class="popup-value">${num((s.ev_level1_evse_num || 0) + (s.ev_level2_evse_num || 0))}</span></div>
         <div class="popup-row"><span>${t('popupDCFast')}</span><span class="popup-value">${num(s.ev_dc_fast_num || 0)}</span></div>
-        ${pricingHtml}
+        ${typeof buildOverridePricingHtml === 'function' && buildOverridePricingHtml(s.id) ? buildOverridePricingHtml(s.id) : pricingHtml}
         ${typeof buildSuggestButton === 'function' ? buildSuggestButton(s) : ''}
       </div>
     `;

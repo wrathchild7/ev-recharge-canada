@@ -4,6 +4,60 @@
 
 const SUGGEST_API_URL = 'https://script.google.com/macros/s/AKfycbx5z2weX8YSKu-N6I7pZeMMZSHRs2dYhUZJYz3K_mvjrg9GLU8zAT0rtZz2RvHVfr3X/exec';
 
+// --- Station price overrides (crowdsourced confirmed prices) ---
+let stationOverrides = {};
+
+async function loadStationOverrides() {
+  try {
+    const resp = await fetch('data/station-overrides.json');
+    if (resp.ok) {
+      const data = await resp.json();
+      stationOverrides = data.stations || {};
+      console.log(`Loaded ${Object.keys(stationOverrides).length} station price override(s)`);
+    }
+  } catch (e) {
+    console.log('No station overrides found (optional)');
+  }
+}
+
+// Call on page load
+document.addEventListener('DOMContentLoaded', loadStationOverrides);
+
+// --- Build override pricing HTML for a station popup ---
+function buildOverridePricingHtml(stationId) {
+  const override = stationOverrides[stationId];
+  if (!override || !override.prices || override.prices.length === 0) return '';
+
+  const fmtPrice = (p) => {
+    if (p.unit === 'free' || p.price === 0) return t('suggestUnitFree');
+    return `$${p.price.toFixed(2)} ${p.unit}`;
+  };
+
+  const levelLabel = (level) => {
+    if (level === 'level2') return t('popupLevel2');
+    if (level === 'dcFast') return t('popupDCFast');
+    if (level === 'level1') return t('popupLevel1');
+    return level;
+  };
+
+  let rows = override.prices.map(p =>
+    `<div class="popup-row">
+      <span>${levelLabel(p.level)}</span>
+      <span class="popup-value">${fmtPrice(p)}</span>
+    </div>`
+  ).join('');
+
+  return `
+    <hr style="margin:0.4rem 0;border:none;border-top:1px solid #e0e0e0">
+    <div class="override-section">
+      <div class="override-header">
+        <span class="override-badge">${t('overrideConfirmed')}</span>
+        <span class="override-date">${override.prices[0].confirmed || ''}</span>
+      </div>
+      ${rows}
+    </div>`;
+}
+
 // --- Build the "Suggest a price" button HTML for station popups ---
 function buildSuggestButton(stationData) {
   // Encode station data as JSON in a data attribute
