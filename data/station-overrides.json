@@ -2,7 +2,7 @@
   "_meta": {
     "description": "Crowdsourced price overrides confirmed by ev-recharge.ca admin",
     "lastUpdated": "2026-03-20",
-    "version": 1
+    "version": 2
   },
   "stations": {
     "nrel_129863": {
@@ -16,6 +16,21 @@
           "unit": "$/hr",
           "confirmed": "2026-03-20",
           "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_129865": {
+      "name": "Carrefour La Pérade",
+      "network": "FLO",
+      "province": "QC",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 1.50,
+          "unit": "$/hr",
+          "confirmed": "2026-03-20",
+          "source": "user-suggestion",
+          "note": "$5/hr after 4 hours"
         }
       ]
     }
