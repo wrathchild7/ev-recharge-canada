@@ -1,0 +1,84 @@
+===============================================
+ ev-recharge.ca — BACKLOG
+ Dernière mise à jour : 2026-03-22 (v7)
+===============================================
+
+----------------------------------------------
+ EN ATTENTE DE PUSH
+----------------------------------------------
+[x] Fix encodage apostrophes dans buildSuggestButton (suggest.js)
+[x] Cacher ligne réseau vide pour bornes non-networked (suggest.js)
+[x] Afficher les notes usagers (ex: "$5/hr after 4 hours") dans les popups override (suggest.js + style.css)
+[x] Barre de recherche combo (index local + Nominatim)
+    - js/search.js : module complet (recherche locale, geocoding, dropdown, auto-drill)
+    - scripts/generate-station-index.js : générateur d'index NREL
+    - data/station-index.json : placeholder (ROULER LE SCRIPT LOCALEMENT pour peupler)
+    - CSS, i18n FR/EN, CSP Nominatim : tous intégrés
+    - IMPORTANT : rouler "node scripts/generate-station-index.js" avant push
+
+----------------------------------------------
+ COURT TERME
+----------------------------------------------
+[ ] Automatiser station-overrides.json (option 3)
+    - Script qui lit les suggestions "applied" du Google Sheet
+    - Met à jour station-overrides.json automatiquement
+    - Push vers GitHub
+    - Actuellement : processus manuel après chaque review
+
+[ ] Valider HTTP vs HTTPS dans Google Search Console
+    - Les résultats Google pointent encore vers http://
+    - Vérifier redirection et indexation après plusieurs jours
+
+[x] Indicateur de chargement lors d'une recherche inter-provinciale
+    - Spinner vert dans la barre de recherche pendant le drill-down
+    - Input désactivé + guard anti double-clic (searchNavigating)
+    - Spinner masqué automatiquement après le drill-down (try/finally)
+
+[ ] Revoir section "À propos" — description DC Rapide inexacte
+    - Le site mentionne "400V+" pour DC Rapide
+    - En réalité, plusieurs bornes classées DC Fast par NREL opèrent bien en
+      dessous de 400V (ex: 200V, 300V selon le protocole CHAdeMO, certaines
+      CCS à 50 kW)
+    - La classification NREL "DC Fast" = courant continu, pas nécessairement 400V+
+    - Corriger la description pour refléter la réalité :
+      ex. "Courant continu (DC) — typiquement 50 kW à 350 kW" ou simplement
+      retirer la mention de voltage et décrire par puissance (kW)
+    - Vérifier aussi les textes i18n FR/EN correspondants
+
+----------------------------------------------
+ MOYEN TERME
+----------------------------------------------
+[ ] Google AdSense
+    - Différé jusqu'à plus de trafic
+    - Nécessite le cookie consent banner avant activation
+
+[ ] Cookie consent banner
+    - Requis seulement quand AdSense sera ajouté
+    - Conformité PIPEDA / Loi 25 Québec
+
+[ ] Enrichir prix par patterns communautaires
+    - Si on accumule assez de suggestions, identifier des ranges de prix
+    - Appliquer des estimations pour réseaux/régions encore sans données
+
+----------------------------------------------
+ TACHE PLANIFIEE ACTIVE
+----------------------------------------------
+[*] Review hebdomadaire des suggestions
+    - Tâche : ev-recharge-review-suggestions
+    - Cron : lundi 21h (0 21 * * 1)
+    - Lit le Google Sheet, identifie les suggestions "pending"
+    - Mise à jour manuelle du JSON après review
+
+----------------------------------------------
+ STATISTIQUES (au 2026-03-22)
+----------------------------------------------
+- Google Ads : 79 impressions, 1 clic (depuis 2026-03-17)
+- Stations overrides confirmées : 2 (nrel_129863, nrel_129865)
+- Requête top impression : "ev rates"
+
+----------------------------------------------
+ LEGENDE
+----------------------------------------------
+[x] = Complété (pas encore push)
+[ ] = À faire
+[*] = En cours / récurrent

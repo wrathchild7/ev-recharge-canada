@@ -7,6 +7,7 @@ let stationIndex = [];    // Lightweight pan-Canadian station index
 let searchInput = null;
 let searchDropdown = null;
 let searchDebounce = null;
+let searchNavigating = false; // Guard: prevent double-click during drill-down
 
 // --- Load station index on page load ---
 async function loadStationIndex() {
@@ -182,8 +183,30 @@ function renderDropdown(stationResults, placeResults) {
   });
 }
 
+// --- Show/hide loading spinner in search bar ---
+function showSearchLoading(show) {
+  const wrapper = document.querySelector('.search-input-wrapper');
+  if (!wrapper) return;
+  let spinner = wrapper.querySelector('.search-spinner');
+  if (show) {
+    if (!spinner) {
+      spinner = document.createElement('span');
+      spinner.className = 'search-spinner';
+      wrapper.insertBefore(spinner, wrapper.querySelector('.search-clear-btn'));
+    }
+    spinner.style.display = 'inline-block';
+    if (searchInput) searchInput.disabled = true;
+  } else {
+    if (spinner) spinner.style.display = 'none';
+    if (searchInput) searchInput.disabled = false;
+  }
+}
+
 // --- Handle search result click: auto-drill + zoom ---
 async function onSearchResultClick(item) {
+  // Guard: prevent double-click while navigating
+  if (searchNavigating) return;
+
   const type = item.dataset.type;
   const lat = parseFloat(item.dataset.lat);
   const lng = parseFloat(item.dataset.lng);
@@ -192,7 +215,7 @@ async function onSearchResultClick(item) {
   // Guess province from coords if not available
   if (!province) province = guessProvinceFromCoords(lat, lng);
 
-  // Close dropdown
+  // Close dropdown, update input
   closeSearchDropdown();
   searchInput.value = item.querySelector('.search-item-name').textContent;
 
@@ -204,14 +227,18 @@ async function onSearchResultClick(item) {
     return;
   }
 
-  // Auto-drill into province if needed
-  if (typeof currentDrillProvince !== 'undefined' && currentDrillProvince !== province) {
-    if (typeof drillIntoProvince === 'function') {
+  // Check if we need to drill into a different province
+  const needsDrill = (typeof currentDrillProvince === 'undefined' || currentDrillProvince === null || currentDrillProvince !== province);
+
+  if (needsDrill && typeof drillIntoProvince === 'function') {
+    // Show spinner — drill-down fetches data and can take a few seconds
+    searchNavigating = true;
+    showSearchLoading(true);
+    try {
       await drillIntoProvince(province);
-    }
-  } else if (typeof currentDrillProvince === 'undefined' || currentDrillProvince === null) {
-    if (typeof drillIntoProvince === 'function') {
-      await drillIntoProvince(province);
+    } finally {
+      showSearchLoading(false);
+      searchNavigating = false;
     }
   }
 
