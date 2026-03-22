@@ -52,7 +52,7 @@
   }
   </script>
   <!-- Security: Content Security Policy -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://unpkg.com data:; connect-src 'self' https://ev-recharge.goatcounter.com https://developer.nrel.gov https://raw.githubusercontent.com https://cdn.jsdelivr.net https://unpkg.com https://geo.statcan.gc.ca https://api.openchargemap.io https://script.google.com https://script.googleusercontent.com; font-src 'self'; base-uri 'self'; form-action 'self';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net https://gc.zgo.at; style-src 'self' 'unsafe-inline' https://unpkg.com; img-src 'self' https://*.basemaps.cartocdn.com https://unpkg.com data:; connect-src 'self' https://ev-recharge.goatcounter.com https://developer.nrel.gov https://raw.githubusercontent.com https://cdn.jsdelivr.net https://unpkg.com https://geo.statcan.gc.ca https://api.openchargemap.io https://script.google.com https://script.googleusercontent.com https://nominatim.openstreetmap.org; font-src 'self'; base-uri 'self'; form-action 'self';">
   <!-- Security: Permissions Policy — disable unused browser features -->
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()">
   <!-- Security: Referrer Policy -->
@@ -145,6 +145,15 @@
   <section id="map-section" class="section">
     <h2 class="section-title" data-i18n="mapTitle">Pricing Map by Province</h2>
     <p class="section-desc" data-i18n="mapDesc">The map shows the daily average cost per kilowatt-hour for all commercial/public charging. Hover over a province for details.</p>
+    <!-- SEARCH BAR -->
+    <div id="search-bar" class="search-bar">
+      <div class="search-input-wrapper">
+        <svg class="search-icon-svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="Search station, city, or network..." autocomplete="off" />
+        <button class="search-clear-btn" onclick="clearSearch()" title="Clear">✕</button>
+      </div>
+      <div id="search-dropdown" class="search-dropdown"></div>
+    </div>
     <p class="map-hint" data-i18n="mapHint" style="text-align:center; font-size:0.85rem; color:#666; margin:0.3rem 0 0.8rem; font-style:italic;">Click on a province to zoom in and see charging stations</p>
     <div id="map"></div>
     <div class="legend" id="map-legend">
@@ -255,6 +264,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" integrity="sha384-e6nUZLBkQ86NJ6TVVKAeSaK8jWa3NhkYWZFomE39AvDbQWeie9PlQqM3pmYW5d1g" crossorigin="anonymous"></script>
   <script src="js/i18n.js"></script>
   <script src="js/suggest.js"></script>
+  <script src="js/search.js"></script>
   <script src="js/regions.js"></script>
   <script src="js/app.js"></script>
   <!-- GoatCounter analytics (cookie-free, privacy-friendly) -->

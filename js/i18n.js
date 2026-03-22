@@ -13,6 +13,9 @@ const translations = {
     navAbout: "About",
     navContribute: "Contribute",
 
+    // Search bar
+    searchPlaceholder: "Search station, city, or network...",
+
     // Hero
     avgLabelDC: "National Average\nDC Fast",
     avgLabelL2: "National Average\nLevel 2",
@@ -141,6 +144,9 @@ const translations = {
     navCompare: "Comparaison",
     navAbout: "À propos",
     navContribute: "Contribuer",
+
+    // Search bar
+    searchPlaceholder: "Chercher une borne, ville ou réseau...",
 
     // Hero
     avgLabelDC: "Moyenne nationale\nDC Rapide",
@@ -309,6 +315,13 @@ function setLanguage(lang) {
     } else {
       el.textContent = value;
     }
+  });
+
+  // Update translatable placeholders
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    const value = t(key);
+    if (value) el.placeholder = value;
   });
 
   // Rebuild dynamic content
