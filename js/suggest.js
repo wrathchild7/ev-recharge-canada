@@ -44,12 +44,16 @@ function buildOverridePricingHtml(stationId) {
     return level;
   };
 
-  let rows = override.prices.map(p =>
-    `<div class="popup-row">
+  let rows = override.prices.map(p => {
+    let row = `<div class="popup-row">
       <span>${levelLabel(p.level)}</span>
       <span class="popup-value">${fmtPrice(p)}</span>
-    </div>`
-  ).join('');
+    </div>`;
+    if (p.note) {
+      row += `<div class="override-note">ℹ️ ${p.note}</div>`;
+    }
+    return row;
+  }).join('');
 
   return `
     <hr style="margin:0.4rem 0;border:none;border-top:1px solid #e0e0e0">
