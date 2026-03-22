@@ -1,49 +1,18 @@
 ===============================================
  ev-recharge.ca — BACKLOG
- Dernière mise à jour : 2026-03-22 (v7)
+ Dernière mise à jour : 2026-03-22 (v8)
 ===============================================
-
-----------------------------------------------
- EN ATTENTE DE PUSH
-----------------------------------------------
-[x] Fix encodage apostrophes dans buildSuggestButton (suggest.js)
-[x] Cacher ligne réseau vide pour bornes non-networked (suggest.js)
-[x] Afficher les notes usagers (ex: "$5/hr after 4 hours") dans les popups override (suggest.js + style.css)
-[x] Barre de recherche combo (index local + Nominatim)
-    - js/search.js : module complet (recherche locale, geocoding, dropdown, auto-drill)
-    - scripts/generate-station-index.js : générateur d'index NREL
-    - data/station-index.json : placeholder (ROULER LE SCRIPT LOCALEMENT pour peupler)
-    - CSS, i18n FR/EN, CSP Nominatim : tous intégrés
-    - IMPORTANT : rouler "node scripts/generate-station-index.js" avant push
 
 ----------------------------------------------
  COURT TERME
 ----------------------------------------------
-[ ] Automatiser station-overrides.json (option 3)
-    - Script qui lit les suggestions "applied" du Google Sheet
-    - Met à jour station-overrides.json automatiquement
-    - Push vers GitHub
-    - Actuellement : processus manuel après chaque review
-
 [ ] Valider HTTP vs HTTPS dans Google Search Console
     - Les résultats Google pointent encore vers http://
     - Vérifier redirection et indexation après plusieurs jours
 
-[x] Indicateur de chargement lors d'une recherche inter-provinciale
-    - Spinner vert dans la barre de recherche pendant le drill-down
-    - Input désactivé + guard anti double-clic (searchNavigating)
-    - Spinner masqué automatiquement après le drill-down (try/finally)
-
-[ ] Revoir section "À propos" — description DC Rapide inexacte
-    - Le site mentionne "400V+" pour DC Rapide
-    - En réalité, plusieurs bornes classées DC Fast par NREL opèrent bien en
-      dessous de 400V (ex: 200V, 300V selon le protocole CHAdeMO, certaines
-      CCS à 50 kW)
-    - La classification NREL "DC Fast" = courant continu, pas nécessairement 400V+
-    - Corriger la description pour refléter la réalité :
-      ex. "Courant continu (DC) — typiquement 50 kW à 350 kW" ou simplement
-      retirer la mention de voltage et décrire par puissance (kW)
-    - Vérifier aussi les textes i18n FR/EN correspondants
+[x] Revoir section "À propos" — description DC Rapide corrigée
+    - "400V+" remplacé par "Direct current, typically 50–350 kW" (EN)
+    - "400V+" remplacé par "Courant continu, typiquement 50–350 kW" (FR)
 
 ----------------------------------------------
  MOYEN TERME
@@ -61,13 +30,32 @@
     - Appliquer des estimations pour réseaux/régions encore sans données
 
 ----------------------------------------------
- TACHE PLANIFIEE ACTIVE
+ TACHE PLANIFIEE — MAINTENANCE HEBDOMADAIRE
 ----------------------------------------------
-[*] Review hebdomadaire des suggestions
-    - Tâche : ev-recharge-review-suggestions
-    - Cron : lundi 21h (0 21 * * 1)
-    - Lit le Google Sheet, identifie les suggestions "pending"
-    - Mise à jour manuelle du JSON après review
+[*] Dimanche 21h — Maintenance et review (ev-recharge-review-suggestions)
+    Workflow en 4 étapes :
+    1. REFRESH DONNÉES WEB
+       - Rouler node scripts/generate-station-index.js (index recherche)
+       - Données NREL/OCM se rafraîchissent au prochain visit via cache 30j
+    2. RÉVISION SPREADSHEET (Simon)
+       - Ouvrir ev-recharge-suggestions (Google Sheet)
+       - Vérifier les suggestions "pending", marquer "applied" ou "rejected"
+    3. SUGGESTIONS → OVERRIDES
+       - Simon fournit les lignes approuvées
+       - Mettre à jour data/station-overrides.json (prix + notes)
+    4. PUSH
+       - git add + commit + push vers GitHub Pages
+       - Valider le déploiement (cache ~2-3 min)
+
+----------------------------------------------
+ HISTORIQUE COMPLÉTÉ
+----------------------------------------------
+[x] Fix encodage apostrophes dans buildSuggestButton
+[x] Cacher ligne réseau vide pour bornes non-networked
+[x] Afficher notes usagers dans popups override
+[x] Barre de recherche combo (index local + Nominatim)
+[x] Indicateur de chargement (spinner) recherche inter-provinciale
+[x] Agrandir la carte (75vh, max-width 1400px)
 
 ----------------------------------------------
  STATISTIQUES (au 2026-03-22)
@@ -79,6 +67,6 @@
 ----------------------------------------------
  LEGENDE
 ----------------------------------------------
-[x] = Complété (pas encore push)
+[x] = Complété
 [ ] = À faire
 [*] = En cours / récurrent
