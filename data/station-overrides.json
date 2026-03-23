@@ -1,8 +1,8 @@
 {
   "_meta": {
     "description": "Crowdsourced price overrides confirmed by ev-recharge.ca admin",
-    "lastUpdated": "2026-03-20",
-    "version": 2
+    "lastUpdated": "2026-03-22",
+    "version": 3
   },
   "stations": {
     "nrel_129863": {
@@ -31,6 +31,149 @@
           "confirmed": "2026-03-20",
           "source": "user-suggestion",
           "note": "$5/hr after 4 hours"
+        }
+      ]
+    },
+    "nrel_388644": {
+      "name": "Motel 6",
+      "network": "Hwis",
+      "province": "ON",
+      "prices": [
+        {
+          "level": "dcFast",
+          "price": 0.56,
+          "unit": "$/kWh",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_446764": {
+      "name": "C08278 Sault Ste Marie",
+      "network": "SHELL_RECHARGE",
+      "province": "ON",
+      "prices": [
+        {
+          "level": "dcFast",
+          "price": 0.45,
+          "unit": "$/kWh",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion",
+          "note": "$0.45/kWh + taxes; Maximum power of 50 KW; Time not charging: $30/hr"
+        }
+      ]
+    },
+    "nrel_85126": {
+      "name": "Tim Horton's",
+      "network": "Non-Networked",
+      "province": "ON",
+      "prices": [
+        {
+          "level": "dcFast",
+          "price": 0,
+          "unit": "free",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_88075": {
+      "name": "Warwick Arena",
+      "network": "Non-Networked",
+      "province": "ON",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 0.38,
+          "unit": "$/kWh",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion",
+          "note": "$2.00 start fee"
+        }
+      ]
+    },
+    "nrel_252971": {
+      "name": "Duckworth Street On-Street Charging",
+      "network": "FLO",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 1.50,
+          "unit": "$/hr",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_429780": {
+      "name": "CNL005 - Germain Hotels - Alt St John's",
+      "network": "FLO",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 2.00,
+          "unit": "$/hr",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_235454": {
+      "name": "SONCOGROUP B35B36",
+      "network": "ChargePoint Network",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 2.00,
+          "unit": "$/hr",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_235455": {
+      "name": "SONCOGROUP B37B38",
+      "network": "ChargePoint Network",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 2.00,
+          "unit": "$/hr",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
+        }
+      ]
+    },
+    "nrel_255413": {
+      "name": "City Hall 1st Floor",
+      "network": "FLO",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 0,
+          "unit": "free",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion",
+          "note": "paid parking"
+        }
+      ]
+    },
+    "nrel_122937": {
+      "name": "Water Street Garage",
+      "network": "Non-Networked",
+      "province": "NL",
+      "prices": [
+        {
+          "level": "level2",
+          "price": 0,
+          "unit": "free",
+          "confirmed": "2026-03-22",
+          "source": "user-suggestion"
         }
       ]
     }
