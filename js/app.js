@@ -4,7 +4,7 @@
 
 // --- EV DATA (embedded for offline use) ---
 const evData = {
-  lastUpdated: "2026-03-15",
+  lastUpdated: "2026-03-22",
   nationalAverage: { level1: 0.15, level2: 0.25, dcFast: 0.42 },
   provinces: [
     { code:"AB", level1:0.18, level2:0.32, dcFast:0.65, totalPorts:1690, level2Ports:1350, dcFastPorts:340, stations:520, pricingModel:"fixed", trend:"stable" },
