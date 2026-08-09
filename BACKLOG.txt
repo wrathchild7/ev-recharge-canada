@@ -52,11 +52,27 @@
     - window.__forceLang évite le clignotement de langue au chargement
     - Chemins de données passés en absolus (/data/...) pour que /fr/ marche
 
+[x] BUG corrigé — texte de repli HTML désynchronisé de i18n.js
+    - index.html affichait encore "DC Fast — 400V+" alors que i18n.js
+      était corrigé depuis mars. Invisible tant que Google ne lisait pas
+      le HTML statique ; le pré-rendu l'a exposé.
+    - build-seo.js resynchronise maintenant les 48 textes depuis i18n.js
+      à chaque exécution → la dérive ne peut plus se reproduire.
+
+[x] BUG corrigé — 6 éléments non traduits sur /fr/
+    - Le regex de traduction utilisait [^<]* pour le contenu interne,
+      donc échouait sur tout élément contenant <br> ou <strong>
+    - Touchait les badges "National Average" et la section "Niveaux de recharge"
+    - Corrigé avec une capture non gourmande
+
 [ ] À FAIRE APRÈS LE PUSH — Google Search Console
-    1. Soumettre à nouveau le sitemap (3 URL maintenant)
-    2. Inspecter https://ev-recharge.ca/fr/ → Demander l'indexation
-    3. Inspecter https://ev-recharge.ca/ → Demander l'indexation (snippet changé)
-    4. Compter ~2 à 4 semaines avant de juger de l'effet sur le CTR
+    1. SUPPRIMER l'entrée "/fr/" de la liste des sitemaps — erreur de champ,
+       /fr/ est une page HTML, pas un fichier XML. Ne jamais soumettre une
+       page dans "Ajouter un sitemap".
+    2. Resoumettre "sitemap.xml" (dernière lecture 8 avril, 2 URL → 3 URL)
+    3. Inspection de l'URL → https://ev-recharge.ca/fr/ → Demander l'indexation
+    4. Inspection de l'URL → https://ev-recharge.ca/ → Demander l'indexation
+    5. Compter ~2 à 4 semaines avant de juger de l'effet sur le CTR
 
 ----------------------------------------------
  COURT TERME

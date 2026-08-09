@@ -115,9 +115,12 @@ function translateMarkup(html, translations, lang) {
   const lookup = key => key.split('.').reduce((o, k) => (o == null ? o : o[k]), dict);
   let translated = 0;
 
-  // <tag ... data-i18n="key" ...>inner</tag> — non-nested elements only
+  // <tag ... data-i18n="key" ...>inner</tag>
+  // Inner content is matched lazily rather than with [^<]*, because several
+  // elements legitimately contain markup (<br>, <strong>). No element carrying
+  // data-i18n nests another element of the same tag name, so this is safe.
   html = html.replace(
-    /<(\w+)([^>]*\bdata-i18n="([^"]+)"[^>]*)>([^<]*)<\/\1>/g,
+    /<(\w+)([^>]*\bdata-i18n="([^"]+)"[^>]*)>([\s\S]*?)<\/\1>/g,
     (match, tag, attrs, key, inner) => {
       const value = lookup(key);
       if (value === undefined || typeof value !== 'string') return match;
@@ -198,7 +201,15 @@ function main() {
   const indexPath = path.join(ROOT, 'index.html');
   let en = fs.readFileSync(indexPath, 'utf8');
 
-  // --- 1. Pre-render the English table ---
+  // --- 1a. Re-sync the English fallback text from i18n.js ---
+  // The markup inside [data-i18n] elements is what crawlers read, so it must not
+  // drift from the translations. It already had: an "About" section still saying
+  // DC Fast is "400V+" months after i18n.js was corrected to 50-350 kW.
+  const synced = translateMarkup(en, translations, 'en');
+  en = synced.html;
+  console.log(`index.html : ${synced.translated} textes resynchronises depuis i18n.js`);
+
+  // --- 1b. Pre-render the English table ---
   en = injectBetween(en, 'seo-table', buildTableRows(evData, translations, 'en'));
   fs.writeFileSync(indexPath, en, 'utf8');
   console.log('index.html : tableau pre-rendu (13 provinces)');
