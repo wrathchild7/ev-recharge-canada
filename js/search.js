@@ -12,7 +12,7 @@ let searchNavigating = false; // Guard: prevent double-click during drill-down
 // --- Load station index on page load ---
 async function loadStationIndex() {
   try {
-    const resp = await fetch('data/station-index.json');
+    const resp = await fetch('/data/station-index.json');
     if (resp.ok) {
       const data = await resp.json();
       stationIndex = data.stations || [];

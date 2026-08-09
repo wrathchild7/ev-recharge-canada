@@ -9,7 +9,7 @@ let stationOverrides = {};
 
 async function loadStationOverrides() {
   try {
-    const resp = await fetch('data/station-overrides.json');
+    const resp = await fetch('/data/station-overrides.json');
     if (resp.ok) {
       const data = await resp.json();
       stationOverrides = data.stations || {};

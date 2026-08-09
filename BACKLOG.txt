@@ -1,12 +1,12 @@
 ===============================================
  ev-recharge.ca — BACKLOG
- Dernière mise à jour : 2026-08-09 (v9)
+ Dernière mise à jour : 2026-08-09 (v10)
 ===============================================
 
 ----------------------------------------------
  URGENT — ACTION REQUISE PAR SIMON
 ----------------------------------------------
-[!] CAUSE RÉELLE DU "limite API atteinte" : domaine NREL mort
+[!] RÉSOLU le 2026-08-09 — CAUSE : domaine NREL mort
     - NREL est devenu "National Laboratory of the Rockies" (NLR).
     - developer.nrel.gov a CESSÉ DE RÉSOUDRE le 29 mai 2026, sans redirection.
     - Depuis, chaque appel échoue → stations = [] → le code affichait
@@ -23,15 +23,78 @@
     - Nouvelle clé : https://developer.nlr.gov/signup/
     - Ne JAMAIS la remettre dans le code : passer par NREL_API_KEY
 
-[ ] Générer les fichiers statiques puis pousser
-    1. $env:NREL_API_KEY="nouvelle_cle"
-    2. node scripts/generate-station-index.js    (1 seul appel API)
-    3. node scripts/generate-regions.js          (13 appels StatCan)
-    4. git add data/ js/ index.html scripts/ && commit && push
+[x] Générer les fichiers statiques puis pousser — FAIT 2026-08-09
+    - 14 332 stations reçues (vs ~0 depuis le 29 mai)
+    - commits a514f30 (code) + a5ce9b6 (données)
+    - Données bien plus fraîches : QC 5153 stations (ev-data.json disait 4000),
+      ON 4321 (disait 4100) → ev-data.json à réviser
+
+----------------------------------------------
+ SEO — FAIT 2026-08-09
+----------------------------------------------
+[x] Snippet Google réécrit (angle gratuit + carte interactive)
+    - Titre 50 car., description 156 car. (avant : 181, donc tronquée)
+    - OG alignés, JSON-LD passé en @graph WebSite + WebApplication
+    - isAccessibleForFree + offers price 0 pour signaler la gratuité
+
+[x] Contenu indexable — scripts/build-seo.js
+    - Le tbody du tableau était VIDE dans le HTML (rempli en JS)
+    - Les 13 provinces avec prix sont maintenant pré-rendues
+    - app.js écrase au chargement → amélioration progressive, rien ne change
+      pour l'utilisateur
+    - Mots indexables sans JS : 266 → 354 (EN), 381 (FR)
+    - Script idempotent, testé sur 3 exécutions
+
+[x] Version française indexable /fr/
+    - fr/index.html généré depuis les traductions de i18n.js (45 éléments)
+    - hreflang honnêtes : en-CA→/, fr-CA→/fr/ (avant : tous vers la même URL)
+    - JSON-LD localisé, canonical et OG propres
+    - window.__forceLang évite le clignotement de langue au chargement
+    - Chemins de données passés en absolus (/data/...) pour que /fr/ marche
+
+[ ] À FAIRE APRÈS LE PUSH — Google Search Console
+    1. Soumettre à nouveau le sitemap (3 URL maintenant)
+    2. Inspecter https://ev-recharge.ca/fr/ → Demander l'indexation
+    3. Inspecter https://ev-recharge.ca/ → Demander l'indexation (snippet changé)
+    4. Compter ~2 à 4 semaines avant de juger de l'effet sur le CTR
 
 ----------------------------------------------
  COURT TERME
 ----------------------------------------------
+[ ] SEO — pages par province (/qc/, /on/...) si les données le justifient
+    - Reporté volontairement : on mesure d'abord l'effet de /fr/ et du
+      pré-rendu dans Search Console avant d'investir dans ~26 pages
+    - C'est le vrai levier pour « prix recharge VE Québec »
+
+[ ] Le sélecteur FR/EN ne change pas l'URL
+    - Cliquer FR sur / affiche le français mais reste sur /
+    - Sans impact SEO (les deux URL existent), mais incohérent
+    - Envisager de faire pointer le bouton vers /fr/ et inversement
+
+[ ] PERF — index de recherche chargé sur chaque visite (383 Ko gzip)
+    - station-index.json fait 1,7 Mo brut / 383 Ko gzip
+    - loadStationIndex() se déclenche sur DOMContentLoaded (js/search.js:361)
+    - Donc payé par TOUS les visiteurs, même ceux qui ne cherchent rien
+    - Fix proposé : charger au premier focus/clic dans la barre de recherche
+    - N'était pas visible avant : le fichier était un placeholder vide
+
+[ ] PERF — géométrie du Nunavut démesurée
+    - data/regions/NU.json : 4,8 Mo brut / 1,17 Mo gzip pour UNE région
+    - Cause : archipel arctique, maxAllowableOffset 0,01° trop fin
+    - Aussi concernés à moindre degré : ON 448 Ko, BC 392 Ko, NL 284 Ko (gzip)
+    - Fix proposé : offset adaptatif par province dans generate-regions.js
+
+[ ] BUG — faux avertissement au Nunavut
+    - NREL retourne 0 borne pour NU (données correctes, pas une panne)
+    - drillIntoProvince() affiche "Données de bornes indisponibles"
+      dès que stations.length === 0, sans distinguer fichier manquant
+      et province réellement sans borne
+    - Fix proposé : différencier les deux cas
+
+[ ] Réviser ev-data.json (moyennes et compteurs provinciaux)
+    - Compteurs de stations désuets vs les données NREL actuelles
+
+
 [ ] Valider HTTP vs HTTPS dans Google Search Console
     - Les résultats Google pointent encore vers http://
     - Vérifier redirection et indexation après plusieurs jours

@@ -269,8 +269,11 @@ const translations = {
 };
 
 // --- i18n Engine ---
-// Detect browser language: if French, default to 'fr', otherwise 'en'
-let currentLang = (navigator.language || navigator.userLanguage || 'en').startsWith('fr') ? 'fr' : 'en';
+// The static /fr/ page (built by scripts/build-seo.js) sets window.__forceLang so
+// its markup and its runtime language agree. Everywhere else, follow the browser.
+let currentLang = window.__forceLang === 'fr' || window.__forceLang === 'en'
+  ? window.__forceLang
+  : (navigator.language || navigator.userLanguage || 'en').startsWith('fr') ? 'fr' : 'en';
 
 function t(key) {
   const keys = key.split('.');

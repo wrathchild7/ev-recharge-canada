@@ -11,8 +11,8 @@
 // Regenerate with:
 //   NREL_API_KEY=xxx node scripts/generate-station-index.js   (stations + search index)
 //   node scripts/generate-regions.js                          (economic regions, rarely needed)
-const STATIONS_PATH = 'data/stations/';  // + {PROV}.json
-const REGIONS_PATH  = 'data/regions/';   // + {PROV}.json
+const STATIONS_PATH = '/data/stations/';  // + {PROV}.json
+const REGIONS_PATH  = '/data/regions/';   // + {PROV}.json
 
 // Region boundaries fall back to the live StatCan service if the static file is
 // missing, so deploying the code before running generate-regions.js is harmless.
